@@ -1,0 +1,55 @@
+---
+title: "Data Is Beautiful"
+output: 
+  html_document: 
+    css: styles.css
+    theme: united
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning=FALSE)
+library(tidyverse)
+library(ggthemes)
+library(zoo)
+
+lake_mendota <- read_csv("data/lake_mendota.csv")
+```
+
+# Lake Mendota {.tabset .tabset-fade}
+
+## Artistic
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu nunc nec nulla rhoncus iaculis. Sed est risus, efficitur sit amet arcu nec, bibendum faucibus sapien. Proin ultricies laoreet ultrices. Quisque nec risus vel nisi semper tempus. Fusce efficitur tellus malesuada sem auctor euismod a non est. Cras elementum ex eu erat iaculis posuere. Etiam et urna non erat accumsan varius. 
+
+```{r artistic-d3}
+d3_options <- list(
+  minYear = min(lake_mendota$year)
+)
+
+r2d3::r2d3("2018-12.js", css = "styles.css", data = lake_mendota, options = d3_options, height = 640, width = "100%")
+```
+
+## Reproduction
+
+This is my attempt at reproducing and cleaning up the [graph](http://www.aos.wisc.edu/~sco/lakes/mendota-dur.gif) created by University of Wisconsin-Madison.
+
+```{r, fig.width=9, fig.height=7}
+lake_mendota %>% 
+  group_by(year) %>% 
+  summarise(`Annual Values` = sum(days)) %>% 
+  ungroup() %>% 
+  mutate(`5-yr running means` = rollmean(`Annual Values`, 5, fill = NA)) %>%
+  gather("label", "days", - year) %>%
+  ggplot(aes(x = year, y = days, color = label)) +
+  geom_line() +
+  theme_hc() +
+  ylim(0, 165) +
+  scale_colour_hc() +
+  labs(
+    x = "Seasons (Ice season begins in autumn of year indicated)",
+    y = "Total Duration of Ice in Days",
+    color = ""
+  ) +
+  ggtitle("Duration of Ice on Lake Mendota 1854 to 2018")
+```
+
