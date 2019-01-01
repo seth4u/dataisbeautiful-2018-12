@@ -2,7 +2,7 @@
 title: "Data Is Beautiful"
 output: 
   html_document: 
-    css: styles.css
+    css: css/styles.css
     theme: united
 ---
 
