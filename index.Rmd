@@ -29,8 +29,8 @@ d3_options <- list(
   minYear = min(lake_mendota$year)
 )
 
-r2d3::r2d3("2018-12.js", 
-  css = "styles.css", 
+r2d3::r2d3("js/2018-12.js", 
+  css = "css/styles.css", 
   data = lake_mendota, 
   options = d3_options, 
   height = 640, 
