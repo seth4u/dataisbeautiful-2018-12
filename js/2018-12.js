@@ -25,7 +25,7 @@ svg.selectAll('rect')
         d.date_closed + " to "  + d.date_opened + "</small></br></br>" + 
         "Days Frozen: <b>" + d.days + "</b>")	
          .style("left", (d3.event.pageX) + "px")		
-         .style("top", (d3.event.pageY - 28) + "px");	
+         .style("top", (d3.event.pageY - 42) + "px");	
     })
     .on("mouseout", function(d) {
         d3.select(this).

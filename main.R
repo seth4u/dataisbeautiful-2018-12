@@ -3,7 +3,6 @@ library(rvest)
 library(lubridate)
 
 # Setup
-
 force_dl <- FALSE
 dl_src <- "http://www.aos.wisc.edu/~sco/lakes/Mendota-ice.html"
 dl_file <- "data/raw_lake_mendota.html"
@@ -13,7 +12,6 @@ if(!file.exists(dl_file) | force_dl) {
 }
 
 # Read file and discard useless indices
-
 lake_lines <- read_html(dl_file) %>% 
   html_nodes("td font") %>% 
   html_text() %>% 
@@ -23,8 +21,7 @@ lake_lines <- read_html(dl_file) %>%
 get_lines <- function(i) lake_lines[(1:32 %% 4) == i]
 
 # Extract data from text
-
-years <- get_lines(1) %>% 
+years <- get_lines(1) %>%
   str_extract_all("([0-9]{4}(?=(-[0-9]{2})))|\"") %>% 
   flatten_chr()
 
@@ -43,7 +40,6 @@ days <- get_lines(0) %>%
   flatten_chr()
 
 # Compute dates and number of days
-
 ydm2 <- function(y, d) ydm(paste(y, d))
 
 lake_mendota <- tibble(
@@ -53,7 +49,7 @@ lake_mendota <- tibble(
 ) %>% 
   mutate(
     year = if_else(is.na(year), lag(year), year),
-    # Arbitraty Choice of June 30
+    # Arbitraty Choice of August 30
     season_start = ydm2(year, "30 August"),
     date_closed = if_else(ydm2(year, closed) >= season_start, 
       true = ydm2(year, closed), 
@@ -72,9 +68,7 @@ lake_mendota <- tibble(
 lake_mendota <- filter(lake_mendota, year > 1854)
 
 # Save data
-
 write_csv(lake_mendota, "data/lake_mendota.csv")
 
 # Render Website
-
 rmarkdown::render("index.Rmd", output_file = "index.html", output_dir = "docs")

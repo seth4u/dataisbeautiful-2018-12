@@ -17,19 +17,28 @@ lake_mendota <- read_csv("data/lake_mendota.csv")
 
 # Lake Mendota {.tabset .tabset-fade}
 
+An artistic and an informative visualization. Sometimes you can visualize inforamtion in a less useful way to grab the attention and then show the actual information.
+
 ## Artistic
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eu nunc nec nulla rhoncus iaculis. Sed est risus, efficitur sit amet arcu nec, bibendum faucibus sapien. Proin ultricies laoreet ultrices. Quisque nec risus vel nisi semper tempus. Fusce efficitur tellus malesuada sem auctor euismod a non est. Cras elementum ex eu erat iaculis posuere. Etiam et urna non erat accumsan varius. 
+The left side offset is given by the number of days since August 30 the bar length is the number of days the lake was frozen over. We have a fancy hover effect as well.
+
 
 ```{r artistic-d3}
 d3_options <- list(
   minYear = min(lake_mendota$year)
 )
 
-r2d3::r2d3("2018-12.js", css = "styles.css", data = lake_mendota, options = d3_options, height = 640, width = "100%")
+r2d3::r2d3("2018-12.js", 
+  css = "styles.css", 
+  data = lake_mendota, 
+  options = d3_options, 
+  height = 640, 
+  width = "100%"
+)
 ```
 
-## Reproduction
+## Scientific
 
 This is my attempt at reproducing and cleaning up the [graph](http://www.aos.wisc.edu/~sco/lakes/mendota-dur.gif) created by University of Wisconsin-Madison.
 
